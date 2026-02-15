@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-CON: Complete Project Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: white;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .page-break {
+                page-break-after: always;
+            }
+            h1, h2, h3 {
+                page-break-after: avoid;
+            }
+            p, li {
+                page-break-inside: avoid;
+            }
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 30px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #0066cc;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            color: #666;
+            margin: 10px 0;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            color: #0066cc;
+            margin: 30px 0 15px 0;
+            border-left: 5px solid #0066cc;
+            padding-left: 15px;
+            page-break-after: avoid;
+        }
+        
+        h3 {
+            font-size: 1.3em;
+            color: #0099ff;
+            margin: 20px 0 10px 0;
+            page-break-after: avoid;
+        }
+        
+        h4 {
+            font-size: 1.1em;
+            color: #333;
+            margin: 15px 0 8px 0;
+            font-weight: 600;
+        }
+        
+        p {
+            margin: 12px 0;
+            line-height: 1.7;
+        }
+        
+        ul, ol {
+            margin: 15px 0 15px 30px;
+            line-height: 1.8;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        pre {
+            background: #f4f4f4;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+            border-radius: 5px;
+        }
+        
+        .highlight-box {
+            background: #e3f2fd;
+            border-left: 5px solid #0066cc;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+        
+        .success-box {
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th {
+            background: #0066cc;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+        }
+        
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .toc {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .toc h3 {
+            margin-top: 0;
+        }
+        
+        .toc ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .toc li {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+        
+        .toc li:before {
+            content: "▸ ";
+            color: #0066cc;
+            font-weight: bold;
+            margin-left: -15px;
+            margin-right: 10px;
+        }
+        
+        .team-member {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            page-break-inside: avoid;
+        }
+        
+        .team-member h3 {
+            color: #0066cc;
+            margin-top: 0;
+        }
+        
+        .file-tree {
+            background: #f4f4f4;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            line-height: 1.6;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        
+        .checkmark {
+            color: #4caf50;
+            font-weight: bold;
+        }
+        
+        .cross {
+            color: #f44336;
+            font-weight: bold;
+        }
+        
+        .warning {
+            color: #ff9800;
+            font-weight: bold;
+        }
+        
+        footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid #ddd;
+            text-align: center;
+            color: #999;
+            font-size: 0.9em;
+        }
+        
+        .page-number {
+            text-align: center;
+            margin-top: 40px;
+            color: #999;
+            font-size: 0.9em;
+        }
+        
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+        }
+        
+        button.no-print {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+        
+        button.no-print:hover {
+            background: #0052a3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="no-print" onclick="window.print()">🖨️ Print to PDF</button>
+        
+        <header>
+            <h1>AI-CON</h1>
+            <p class="subtitle">Complete Project Guide</p>
+            <p style="margin-top: 20px; color: #999;">AI-powered Academic Paper Review Platform</p>
+        </header>
+        
+        <div class="toc">
+            <h3>📋 TABLE OF CONTENTS</h3>
+            <ul>
+                <li><a href="#project-overview">Project Overview</a></li>
+                <li><a href="#what-it-does">What It Does</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#technology-stack">Technology Stack</a></li>
+                <li><a href="#main-files">Main Files & Structure</a></li>
+                <li><a href="#accuracy">Accuracy & Capabilities</a></li>
+                <li><a href="#how-to-run">How to Run</a></li>
+                <li><a href="#team-division">4-Person Team Division</a></li>
+                <li><a href="#workflow">Workflow & Communication</a></li>
+            </ul>
+        </div>
+        
+        <section id="project-overview">
+            <h2>🎯 Project Overview</h2>
+            <p><strong>AI-CON</strong> is an <strong>AI-powered academic paper review and management platform</strong> designed for conference organizers, researchers, and academic institutions. It automates the entire academic manuscript review process using artificial intelligence.</p>
+            <table>
+                <tr>
+                    <td><strong>Repository</strong></td>
+                    <td>SREELAKSHMI267/AI-CON</td>
+                </tr>
+                <tr>
+                    <td><strong>Framework</strong></td>
+                    <td>Next.js 14 + TypeScript</td>
+                </tr>
+                <tr>
+                    <td><strong>AI Engine</strong></td>
+                    <td>Google Gemini 2.5 Flash</td>
+                </tr>
+                <tr>
+                    <td><strong>Database</strong></td>
+                    <td>Firebase Firestore</td>
+                </tr>
+                <tr>
+                    <td><strong>Deployment Ready</strong></td>
+                    <td>Yes ✓</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section id="what-it-does">
+            <h2>💡 What It Does - Core Purpose</h2>
+            <p>AI-CON streamlines academic conference workflows by providing AI-powered intelligent analysis of research papers. It eliminates the need for initial human reviewers by automating critical review functions typically performed by conference submission committees.</p>
+            
+            <h3>Primary Users:</h3>
+            <ul>
+                <li>Conference organizers and program committees</li>
+                <li>Academic researchers submitting papers</li>
+                <li>Peer review coordinators</li>
+                <li>Academic institutions managing submissions</li>
+            </ul>
+        </section>
+        
+        <section id="how-it-works">
+            <h2>🔧 How It Works - Architecture & Flow</h2>
+            
+            <h3>Document Upload & Processing</h3>
+            <p>Users upload academic papers in supported formats:</p>
+            <ul>
+                <li><strong>PDF</strong> (.pdf) - Most common research format</li>
+                <li><strong>Word Document</strong> (.docx) - MS Office format</li>
+                <li><strong>Plain Text</strong> (.txt) - Raw text files</li>
+            </ul>
+            
+            <h3>Core AI Analysis Features</h3>
+            
+            <h4>1. Plagiarism Detection</h4>
+            <ul>
+                <li>Analyzes originality and similarity</li>
+                <li>Returns: Similarity Score (0-100%), Flagged sections, Source citations</li>
+            </ul>
+            
+            <h4>2. Grammar & Style Check</h4>
+            <ul>
+                <li>Comprehensive grammatical and stylistic analysis</li>
+                <li>Returns: Improved manuscript, Change list with explanations</li>
+            </ul>
+            
+            <h4>3. AI-Powered Review</h4>
+            <ul>
+                <li>Expert-level academic review by Gemini AI</li>
+                <li>Returns: Summary of strengths/weaknesses, Actionable feedback</li>
+            </ul>
+            
+            <h4>4. Reviewer Suggestion</h4>
+            <ul>
+                <li>AI matches expertise to paper topics</li>
+                <li>Returns: List of suggested qualified reviewers</li>
+            </ul>
+        </section>
+        
+        <section id="technology-stack">
+            <h2>⚙️ Technology Stack</h2>
+            
+            <h3>Frontend Technologies</h3>
+            <ul>
+                <li><strong>Next.js 14</strong> - React framework with SSR/SSG</li>
+                <li><strong>React 18</strong> - UI component library</li>
+                <li><strong>TypeScript 5</strong> - Type-safe JavaScript</li>
+                <li><strong>Tailwind CSS 3</strong> - Utility-first CSS framework</li>
+                <li><strong>Radix UI</strong> - Accessible component library (30+ components)</li>
+                <li><strong>React Hook Form</strong> - Form state management</li>
+                <li><strong>Zod</strong> - Schema validation</li>
+            </ul>
+            
+            <h3>Backend Technologies</h3>
+            <ul>
+                <li><strong>Next.js API Routes</strong> - Serverless backend</li>
+                <li><strong>Genkit 1.28</strong> - Google AI framework</li>
+                <li><strong>Google Gemini 2.5 Flash</strong> - Language model</li>
+                <li><strong>pdf-parse</strong> - PDF text extraction</li>
+                <li><strong>mammoth</strong> - DOCX text extraction</li>
+            </ul>
+            
+            <h3>Database & Auth</h3>
+            <ul>
+                <li><strong>Firebase 10.0</strong> - Backend-as-a-service
+                    <ul>
+                        <li>Firebase Auth - User authentication</li>
+                        <li>Firestore - NoSQL database</li>
+                        <li>Cloud Storage - File storage</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+        
+        <section id="main-files">
+            <h2>📁 Main Files & Structure</h2>
+            
+            <h3>Key Directories</h3>
+            
+            <h4>src/ai/ - AI Logic Layer</h4>
+            <ul>
+                <li><code>genkit.ts</code> - Gemini initialization</li>
+                <li><code>flows/ai-powered-review.ts</code> - Academic review AI (51 lines)</li>
+                <li><code>flows/check-plagiarism.ts</code> - Plagiarism detection (80 lines)</li>
+                <li><code>flows/improve-grammar-style.ts</code> - Grammar improvements (71 lines)</li>
+                <li><code>flows/suggest-reviewers.ts</code> - Reviewer matching (58 lines)</li>
+                <li><code>flows/extract-text-and-analyze.ts</code> - Orchestration (83 lines)</li>
+                <li><code>lib/text-extractor.ts</code> - PDF/DOCX/TXT parsing</li>
+            </ul>
+            
+            <h4>src/app/ - Pages & Routes</h4>
+            <ul>
+                <li><code>page.tsx</code> - Landing page</li>
+                <li><code>api/analyze/route.ts</code> - Main analysis endpoint</li>
+                <li><code>(auth)/login/page.tsx</code> - Login page</li>
+                <li><code>dashboard/page.tsx</code> - User dashboard</li>
+                <li><code>upload/page.tsx</code> - File upload interface</li>
+                <li><code>profile/page.tsx</code> - User settings</li>
+            </ul>
+            
+            <h4>src/firebase/ - Database & Auth</h4>
+            <ul>
+                <li><code>config.ts</code> - Firebase configuration</li>
+                <li><code>provider.tsx</code> - User context provider</li>
+                <li><code>papers-actions.ts</code> - Paper CRUD operations</li>
+                <li><code>firestore/use-collection.tsx</code> - Collection hooks</li>
+            </ul>
+            
+            <h4>src/components/ - UI Components</h4>
+            <ul>
+                <li><code>landing/</code> - Hero, features, CTA sections</li>
+                <li><code>ui/</code> - 30+ Radix UI components</li>
+                <li><code>layout/</code> - Header and footer</li>
+            </ul>
+        </section>
+        
+        <section id="accuracy">
+            <h2>✅ Accuracy & Capabilities</h2>
+            
+            <h3>What It Delivers</h3>
+            <div class="success-box">
+                <p><span class="checkmark">✓</span> <strong>Real-time plagiarism similarity scoring (0-100%)</strong></p>
+                <p><span class="checkmark">✓</span> <strong>Specific flagged sections detection</strong></p>
+                <p><span class="checkmark">✓</span> <strong>Source identification for matched content</strong></p>
+                <p><span class="checkmark">✓</span> <strong>Comprehensive grammar corrections with explanations</strong></p>
+                <p><span class="checkmark">✓</span> <strong>Expert-level academic paper reviews</strong></p>
+                <p><span class="checkmark">✓</span> <strong>Reviewer qualification matching</strong></p>
+            </div>
+            
+            <h3>Important Limitations</h3>
+            <div class="warning-box">
+                <p><span class="warning">⚠</span> <strong>AI-Generated Insights:</strong> All analysis relies on Google Gemini 2.5 Flash. Not a replacement for human expert review.</p>
+                <p><span class="warning">⚠</span> <strong>Plagiarism Detection:</strong> Prompt-based simulation, not connecting to real plagiarism databases (Turnitin, etc.)</p>
+                <p><span class="warning">⚠</span> <strong>Reviewer Suggestions:</strong> AI-generated personas based on abstract/keywords only</p>
+            </div>
+            
+            <h3>Key Strengths</h3>
+            <div class="highlight-box">
+                <ul>
+                    <li><span class="checkmark">✓</span> Speed: Instant analysis</li>
+                    <li><span class="checkmark">✓</span> Consistency: Same standards applied to all papers</li>
+                    <li><span class="checkmark">✓</span> 24/7 Availability: No human scheduling constraints</li>
+                    <li><span class="checkmark">✓</span> Scalability: Can handle conference volume automatically</li>
+                    <li><span class="checkmark">✓</span> Cost-Effective: Reduces need for paid human reviewers</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="how-to-run">
+            <h2>🚀 How to Run the Website</h2>
+            
+            <h3>Quick Start (2 Minutes)</h3>
+            <pre>cd "AICON FINAL"
+npm run dev</pre>
+            <p><strong>Server runs at:</strong> http://localhost:3000</p>
+            
+            <h3>Available Commands</h3>
+            <table>
+                <tr>
+                    <th>Command</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><code>npm run dev</code></td>
+                    <td>Start development server (with hot reload)</td>
+                </tr>
+                <tr>
+                    <td><code>npm run build</code></td>
+                    <td>Build for production</td>
+                </tr>
+                <tr>
+                    <td><code>npm start</code></td>
+                    <td>Start production server</td>
+                </tr>
+                <tr>
+                    <td><code>npm run lint</code></td>
+                    <td>Run ESLint and code quality checks</td>
+                </tr>
+                <tr>
+                    <td><code>npm run type-check</code></td>
+                    <td>Run TypeScript type checking</td>
+                </tr>
+            </table>
+            
+            <h3>Required Setup (Already Configured)</h3>
+            <div class="success-box">
+                <p><span class="checkmark">✓</span> .env.local configured with Gemini API key</p>
+                <p><span class="checkmark">✓</span> Firebase credentials set up</p>
+                <p><span class="checkmark">✓</span> node_modules installed</p>
+            </div>
+        </section>
+        
+        <section id="team-division">
+            <h2>👥 4-Person Team Division</h2>
+            
+            <div class="team-member">
+                <h3>🤖 Person 1: Backend & AI Engineer</h3>
+                <p><strong>Responsibility:</strong> All AI logic, document processing, and API endpoints</p>
+                <h4>Files to Own:</h4>
+                <ul>
+                    <li>src/ai/genkit.ts</li>
+                    <li>src/ai/flows/*.ts (all AI flows)</li>
+                    <li>src/ai/lib/text-extractor.ts</li>
+                    <li>src/app/api/analyze/route.ts</li>
+                </ul>
+                <h4>Key Responsibilities:</h4>
+                <ul>
+                    <li>Optimize Gemini API prompts for accuracy</li>
+                    <li>Handle file parsing edge cases</li>
+                    <li>Implement result caching/optimization</li>
+                    <li>Error handling and logging</li>
+                    <li>API rate limiting</li>
+                </ul>
+            </div>
+            
+            <div class="team-member">
+                <h3>🔧 Person 2: Firebase & Backend Infrastructure</h3>
+                <p><strong>Responsibility:</strong> Database design, authentication, and data persistence</p>
+                <h4>Files to Own:</h4>
+                <ul>
+                    <li>src/firebase/config.ts</li>
+                    <li>src/firebase/provider.tsx</li>
+                    <li>src/firebase/papers-actions.ts</li>
+                    <li>src/firebase/firestore/*.tsx</li>
+                </ul>
+                <h4>Key Responsibilities:</h4>
+                <ul>
+                    <li>Design Firestore collections (users, papers, analyses)</li>
+                    <li>User authentication flow optimization</li>
+                    <li>Database indexing and queries</li>
+                    <li>Real-time data synchronization</li>
+                    <li>Security rules and permissions</li>
+                </ul>
+            </div>
+            
+            <div class="team-member">
+                <h3>🎨 Person 3: Frontend & UI Engineer</h3>
+                <p><strong>Responsibility:</strong> User interface, components, and styling</p>
+                <h4>Files to Own:</h4>
+                <ul>
+                    <li>src/components/ui/*.tsx (30+ components)</li>
+                    <li>src/components/landing/*.tsx</li>
+                    <li>src/components/layout/*.tsx</li>
+                    <li>src/hooks/*.tsx</li>
+                    <li>tailwind.config.js</li>
+                </ul>
+                <h4>Key Responsibilities:</h4>
+                <ul>
+                    <li>Build reusable component library</li>
+                    <li>Responsive design for all screen sizes</li>
+                    <li>Accessibility compliance (WCAG 2.1)</li>
+                    <li>Animations and transitions</li>
+                    <li>Component performance optimization</li>
+                </ul>
+            </div>
+            
+            <div class="team-member">
+                <h3>📄 Person 4: Pages & Features Engineer</h3>
+                <p><strong>Responsibility:</strong> User workflows, page logic, and feature integration</p>
+                <h4>Files to Own:</h4>
+                <ul>
+                    <li>src/app/page.tsx (landing page)</li>
+                    <li>src/app/(auth)/*.tsx (login/signup)</li>
+                    <li>src/app/dashboard/page.tsx</li>
+                    <li>src/app/upload/page.tsx</li>
+                    <li>src/components/auth-form.tsx</li>
+                    <li>src/components/analysis-result.tsx</li>
+                </ul>
+                <h4>Key Responsibilities:</h4>
+                <ul>
+                    <li>Complete user authentication flow</li>
+                    <li>Paper upload workflow</li>
+                    <li>Analysis results display</li>
+                    <li>Dashboard features</li>
+                    <li>Form validation with Zod schemas</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="workflow">
+            <h2>📋 Workflow & Communication</h2>
+            
+            <h3>Git & Version Control</h3>
+            <pre>git checkout -b feature/[feature-name]
+git add .
+git commit -m "feat: description of changes"
+git push origin feature/[feature-name]
+# Create Pull Request on GitHub</pre>
+            
+            <h3>Daily Standup Topics (15 minutes)</h3>
+            <ol>
+                <li>What did I complete yesterday?</li>
+                <li>What am I working on today?</li>
+                <li>What's blocking me?</li>
+                <li>Do I need anything from others?</li>
+            </ol>
+            
+            <h3>Critical Integration Points</h3>
+            <table>
+                <tr>
+                    <th>Between</th>
+                    <th>Data Contract</th>
+                </tr>
+                <tr>
+                    <td>Person 1 ↔ Person 2</td>
+                    <td>API returns structure, Firebase schema</td>
+                </tr>
+                <tr>
+                    <td>Person 1 ↔ Person 4</td>
+                    <td>API endpoints and error codes</td>
+                </tr>
+                <tr>
+                    <td>Person 2 ↔ Person 4</td>
+                    <td>User flow and data structures</td>
+                </tr>
+                <tr>
+                    <td>Person 3 ↔ Person 4</td>
+                    <td>Component props and callbacks</td>
+                </tr>
+            </table>
+            
+            <h3>Estimated Timeline</h3>
+            <ul>
+                <li>Feature development: 2-3 weeks per feature</li>
+                <li>Integration testing: 1 week</li>
+                <li>Bug fixes and optimization: Ongoing</li>
+            </ul>
+        </section>
+        
+        <footer>
+            <p><strong>AI-CON: Complete Project Guide</strong></p>
+            <p>Generated: February 12, 2026</p>
+            <p>Repository: SREELAKSHMI267/AI-CON | Framework: Next.js 14 + React 18</p>
+            <p style="margin-top: 20px; font-size: 0.85em;">This document is a comprehensive guide for development, deployment, and team coordination.</p>
+        </footer>
+    </div>
+</body>
+</html>

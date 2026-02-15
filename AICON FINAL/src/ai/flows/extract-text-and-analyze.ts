@@ -6,6 +6,11 @@
  */
 
 import { ai } from '@/ai/genkit';
+
+// Buffer is a global in Node.js, but TypeScript needs help knowing this
+declare const Buffer: {
+  from(data: string, encoding: string): any;
+};
 import {
   ExtractTextAndAnalyzeInputSchema,
   ExtractTextAndAnalyzeOutputSchema,
@@ -24,7 +29,7 @@ const extractTextAndAnalyzeFlow = ai.defineFlow(
     inputSchema: ExtractTextAndAnalyzeInputSchema,
     outputSchema: ExtractTextAndAnalyzeOutputSchema,
   },
-  async ({ dataUri, analysisType }) => {
+  async ({ dataUri, analysisType }: ExtractTextAndAnalyzeInput) => {
     try {
       if (!dataUri) {
         return { error: "File data URI is missing." };

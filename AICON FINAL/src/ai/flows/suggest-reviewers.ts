@@ -9,7 +9,7 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {z} from 'zod';
 
 const SuggestReviewersInputSchema = z.object({
   paperAbstract: z
@@ -51,7 +51,7 @@ const suggestReviewersFlow = ai.defineFlow(
     inputSchema: SuggestReviewersInputSchema,
     outputSchema: SuggestReviewersOutputSchema,
   },
-  async input => {
+  async (input: SuggestReviewersInput) => {
     const {output} = await suggestReviewersPrompt(input);
     return output!;
   }

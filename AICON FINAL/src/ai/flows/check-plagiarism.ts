@@ -10,7 +10,7 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {z} from 'zod';
 
 const CheckPaperForPlagiarismInputSchema = z.object({
   paperText: z.string().describe('The text content of the research paper to be checked for plagiarism.'),
@@ -73,7 +73,7 @@ const checkPaperForPlagiarismFlow = ai.defineFlow(
     inputSchema: CheckPaperForPlagiarismInputSchema,
     outputSchema: CheckPaperForPlagiarismOutputSchema,
   },
-  async input => {
+  async (input: CheckPaperForPlagiarismInput) => {
     const {output} = await plagiarismCheckPrompt(input);
     return output!;
   }

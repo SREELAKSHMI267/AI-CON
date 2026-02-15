@@ -32,7 +32,7 @@ export default function UploadPage() {
     setSelectedFile(file);
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (!selectedFile) {
       setError("Please select a file to continue.");
       return;
@@ -47,34 +47,40 @@ export default function UploadPage() {
       return;
     }
 
+    if (isNavigating) return; // Prevent multiple rapid clicks
     setIsNavigating(true);
 
-    // 1. Generate a client-side ID for the new paper.
-    const newPaperRef = doc(collection(firestore, 'papers'));
-    const paperId = newPaperRef.id;
+    try {
+      // 1. Generate a client-side ID for the new paper.
+      const newPaperRef = doc(collection(firestore, 'papers'));
+      const paperId = newPaperRef.id;
 
-    // 2. Prepare the paper data.
-    const paperData = {
-      id: paperId,
-      title: selectedFile.name,
-      fileType: selectedFile.type,
-      status: 'Uploaded' as const,
-      userId: user.uid,
-    };
-    
-    // 3. Start the background Firestore write operation. We don't await it.
-    addPaper(firestore, paperData).catch(err => {
-        // The user has already navigated away. We can log this error.
-        // The /submit page will handle the case where the document fails to appear.
-        console.error("Background save failed:", err);
-    });
-    
-    // 4. Immediately navigate to the analysis page.
-    toast({
-      title: "Paper Record Created",
-      description: "Proceeding to the analysis page.",
-    });
-    router.push(`/submit?paperId=${paperId}`);
+      // 2. Prepare the paper data.
+      const paperData = {
+        id: paperId,
+        title: selectedFile.name,
+        fileType: selectedFile.type,
+        status: 'Uploaded' as const,
+        userId: user.uid,
+      };
+      
+      // 3. Start the background Firestore write operation. We don't await it.
+      addPaper(firestore, paperData).catch(err => {
+          // The user has already navigated away. We can log this error.
+          // The /submit page will handle the case where the document fails to appear.
+          console.error("Background save failed:", err);
+      });
+      
+      // 4. Immediately navigate to the analysis page.
+      toast({
+        title: "Paper Record Created",
+        description: "Proceeding to the analysis page.",
+      });
+      router.push(`/submit?paperId=${paperId}`);
+    } catch (err) {
+      console.error("Navigation error:", err);
+      setIsNavigating(false);
+    }
   };
 
   const isButtonDisabled = !selectedFile || isUserLoading || isNavigating || !user || !firestore;

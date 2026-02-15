@@ -37,7 +37,8 @@ export default function DashboardPage() {
     }
   }, [user, isUserLoading, router]);
 
-  if (isUserLoading || (papersLoading && papers.length === 0)) {
+  // Show loading while user is being authenticated AND before papers finish loading
+  if (isUserLoading || (papersLoading)) {
     return (
        <div className="flex min-h-screen flex-col bg-muted/40">
         <Header />
@@ -122,7 +123,17 @@ export default function DashboardPage() {
                           {paper.title}
                         </TableCell>
                         <TableCell>
-                          <Badge variant={paper.status === 'Failed' ? 'destructive' : 'outline'}>{paper.status}</Badge>
+                          <div className="flex flex-col gap-2">
+                            <Badge variant={paper.status === 'Failed' ? 'destructive' : 'outline'}>{paper.status}</Badge>
+                            <div className="text-xs text-muted-foreground">
+                              Submitted: {paper.uploadTimestamp?.seconds ? format(new Date(paper.uploadTimestamp.seconds * 1000), 'MMM dd, yyyy') : 'N/A'}
+                            </div>
+                            <div className="flex gap-1 flex-wrap">
+                              {paper.plagiarismResult && <Badge variant="secondary" className="text-xs">✓ Plagiarism Checked</Badge>}
+                              {paper.grammarResult && <Badge variant="secondary" className="text-xs">✓ Grammar Checked</Badge>}
+                              {paper.reviewResult && <Badge variant="secondary" className="text-xs">✓ AI Review Checked</Badge>}
+                            </div>
+                          </div>
                         </TableCell>
                         <TableCell>
                           {paper.uploadTimestamp?.seconds ? format(new Date(paper.uploadTimestamp.seconds * 1000), 'yyyy-MM-dd') : 'N/A'}

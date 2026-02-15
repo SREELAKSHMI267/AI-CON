@@ -10,7 +10,7 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {z} from 'zod';
 
 const AiPoweredReviewInputSchema = z.object({
   paperText: z.string().describe('The text of the research paper submission.'),
@@ -44,7 +44,7 @@ const aiPoweredReviewFlow = ai.defineFlow(
     inputSchema: AiPoweredReviewInputSchema,
     outputSchema: AiPoweredReviewOutputSchema,
   },
-  async input => {
+  async (input: AiPoweredReviewInput) => {
     const {output} = await aiPoweredReviewPrompt(input);
     return output!;
   }

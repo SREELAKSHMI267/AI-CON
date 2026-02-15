@@ -88,8 +88,12 @@ function SubmitPageContent() {
   };
   
  const handleAnalysis = async (analysisType: AnalysisFlow) => {
-    if (!selectedFile) {
-        toast({ title: "No File Selected", description: "Please select the paper file again to run analysis.", variant: "destructive" });
+    if (!selectedFile && !paper) {
+        toast({ title: "No File Selected", description: "Please select the paper file to run analysis.", variant: "destructive" });
+        return;
+    }
+    if (runningAnalysis === analysisType) {
+        toast({ title: "Analysis in Progress", description: `The ${analysisType} analysis is already running.`, variant: "default" });
         return;
     }
     if (!paperId || !firestore) {
@@ -98,21 +102,29 @@ function SubmitPageContent() {
     }
     
     setErrorMessage(null);
-    setViewingAnalysis(analysisType);
     setRunningAnalysis(analysisType);
     updatePaper(firestore, paperId, { status: 'Analyzing' });
 
     try {
-        toast({ title: "Preparing file for analysis...", description: "This may take a moment for large documents." });
+        toast({ title: `Starting ${analysisType} analysis...`, description: "This may take a moment." });
+        if (!selectedFile) {
+            toast({ title: "Please re-select your file", description: "The file wasn't available in memory. Please select it again.", variant: "destructive" });
+            setRunningAnalysis(null);
+            return;
+        }
         const dataUri = await fileToDataUri(selectedFile);
 
-        toast({ title: `Running ${analysisType} analysis...`, description: "Communicating with AI. This may take some time." });
+        // Analysis in progress - no need for another toast
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 320000); // 320 second timeout
         
         const response = await fetch('/api/analyze', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ dataUri, analysisType, paperId }),
+            signal: controller.signal,
         });
+        clearTimeout(timeoutId);
 
         if (!response.ok) {
           let errorMsg = "An unexpected error occurred on the server.";
@@ -143,6 +155,9 @@ function SubmitPageContent() {
         };
         
         await updatePaper(firestore, paperId, updatePayload);
+        
+        // Auto-set viewing analysis to show results immediately
+        setViewingAnalysis(analysisType);
 
         toast({
             title: "Analysis Complete",
@@ -171,7 +186,7 @@ function SubmitPageContent() {
       }
   }
 
-  const areActionsDisabled = runningAnalysis !== null || !selectedFile;
+  const areActionsDisabled = runningAnalysis !== null;
   const analysisResult = getResultForDisplay(viewingAnalysis);
   
   if (paperLoading) {
@@ -253,15 +268,15 @@ function SubmitPageContent() {
                </div>
 
               <div className="grid sm:grid-cols-3 gap-4">
-                <Button onClick={() => handleAnalysis('plagiarism')} disabled={areActionsDisabled}>
+                <Button onClick={() => handleAnalysis('plagiarism')} disabled={runningAnalysis === 'plagiarism'}>
                   {runningAnalysis === 'plagiarism' ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Search className="mr-2 h-4 w-4" />}
                   Check Plagiarism
                 </Button>
-                <Button onClick={() => handleAnalysis('grammar')} disabled={areActionsDisabled}>
+                <Button onClick={() => handleAnalysis('grammar')} disabled={runningAnalysis === 'grammar'}>
                   {runningAnalysis === 'grammar' ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <SpellCheck2 className="mr-2 h-4 w-4" />}
                   Check Grammar & Style
                 </Button>
-                <Button onClick={() => handleAnalysis('review')} disabled={areActionsDisabled}>
+                <Button onClick={() => handleAnalysis('review')} disabled={runningAnalysis === 'review'}>
                   {runningAnalysis === 'review' ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Bot className="mr-2 h-4 w-4" />}
                   AI-Powered Review
                 </Button>
@@ -277,22 +292,28 @@ function SubmitPageContent() {
             </Alert>
           )}
 
-          {viewingAnalysis && analysisResult ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>View Analysis Results</CardTitle>
+              <CardDescription>{viewingAnalysis && analysisResult ? 'Switch between analyses or run new ones.' : 'Select a previous analysis to view its results, or run a new one above.'}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <button onClick={() => setViewingAnalysis('plagiarism')} disabled={!paper.plagiarismResult} className={`px-4 py-2 rounded ${!paper.plagiarismResult ? 'opacity-50 cursor-not-allowed bg-gray-200 text-gray-500' : viewingAnalysis === 'plagiarism' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}>
+            View Plagiarism Results
+          </button>
+          <button onClick={() => setViewingAnalysis('grammar')} disabled={!paper.grammarResult} className={`px-4 py-2 rounded ${!paper.grammarResult ? 'opacity-50 cursor-not-allowed bg-gray-200 text-gray-500' : viewingAnalysis === 'grammar' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}>
+            View Grammar Results
+          </button>
+          <button onClick={() => setViewingAnalysis('review')} disabled={!paper.reviewResult} className={`px-4 py-2 rounded ${!paper.reviewResult ? 'opacity-50 cursor-not-allowed bg-gray-200 text-gray-500' : viewingAnalysis === 'review' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}>
+            View AI Review
+          </button>
+              </div>
+            </CardContent>
+          </Card>
+          
+          {viewingAnalysis && analysisResult && (
             <AnalysisResult result={analysisResult} type={viewingAnalysis} />
-          ) : (
-             <Card>
-                <CardHeader>
-                  <CardTitle>View Analysis Results</CardTitle>
-                  <CardDescription>Select a previous analysis to view its results, or run a new one above.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <Button variant="outline" onClick={() => setViewingAnalysis('plagiarism')} disabled={!paper.plagiarismResult}>View Plagiarism Results</Button>
-                      <Button variant="outline" onClick={() => setViewingAnalysis('grammar')} disabled={!paper.grammarResult}>View Grammar Results</Button>
-                      <Button variant="outline" onClick={() => setViewingAnalysis('review')} disabled={!paper.reviewResult}>View AI Review</Button>
-                  </div>
-                </CardContent>
-              </Card>
           )}
         </div>
       </main>

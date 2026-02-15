@@ -10,7 +10,7 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {z} from 'zod';
 
 const ImproveGrammarAndStyleInputSchema = z.object({
   paperText: z
@@ -47,15 +47,20 @@ const prompt = ai.definePrompt({
   name: 'improveGrammarAndStylePrompt',
   input: {schema: ImproveGrammarAndStyleInputSchema},
   output: {schema: ImproveGrammarAndStyleOutputSchema},
-  prompt: `You are an expert academic editor with a sharp eye for detail. Review the following research paper text. Your task is to perform a comprehensive grammar and style check.
+  prompt: `You are an expert academic editor. Review this research paper for grammar and style issues.
 
-You must provide two things in your response:
-1.  **A list of changes**: Identify every error, including spelling, punctuation, verb tense, sentence structure, and subject-verb agreement. For each error, provide the original snippet, your suggested correction, and a clear explanation for the change. Also include suggestions for improving readability, clarity, conciseness, and academic tone.
-2.  **The improved paper text**: Provide the complete, fully revised text with all your corrections and suggestions incorporated.
+Identify and fix:
+- Spelling, punctuation, grammar errors
+- Verb tense issues, subject-verb agreement
+- Clarity, conciseness, and academic tone improvements
 
-Do not provide mock or placeholder text. Every suggestion must be relevant and directly derived from the input text.
+Provide your response with:
+1. A JSON array of changes with fields: original (the text snippet), suggestion (the correction), explanation (why)
+2. improvedPaperText: The complete corrected text
 
-Original Paper Text: {{{paperText}}}`,
+Focus on the most impactful improvements. Be concise in explanations.
+
+Paper Text: {{{paperText}}}`,
 });
 
 const improveGrammarAndStyleFlow = ai.defineFlow(
@@ -64,7 +69,7 @@ const improveGrammarAndStyleFlow = ai.defineFlow(
     inputSchema: ImproveGrammarAndStyleInputSchema,
     outputSchema: ImproveGrammarAndStyleOutputSchema,
   },
-  async input => {
+  async (input: ImproveGrammarAndStyleInput) => {
     const {output} = await prompt(input);
     return output!;
   }

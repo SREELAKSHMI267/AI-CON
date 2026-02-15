@@ -201,13 +201,18 @@ const Header = () => {
                     {user ? (
                       <>
                         <SheetClose asChild>
+                          <Button className="w-full" asChild>
+                            <Link href="/upload">Upload Paper</Link>
+                          </Button>
+                        </SheetClose>
+                        <SheetClose asChild>
                           <Link href="/profile" className="text-lg text-muted-foreground hover:text-primary transition-colors duration-200 font-medium">My Profile</Link>
                         </SheetClose>
                         <Button onClick={handleSignOut}>Sign Out</Button>
                       </>
                     ) : (
                       <SheetClose asChild>
-                          <Button asChild>
+                          <Button asChild className="w-full">
                             <Link href="/login">Get Started</Link>
                           </Button>
                         </SheetClose>

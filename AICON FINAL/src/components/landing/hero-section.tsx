@@ -25,11 +25,7 @@ const HeroSection = () => {
   };
   
   const handleStartTrialClick = () => {
-     if (user) {
-      router.push('/dashboard');
-    } else {
-      router.push('/login');
-    }
+     router.push(user ? '/upload' : '/login');
   }
 
   return (

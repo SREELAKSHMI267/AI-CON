@@ -1,5 +1,5 @@
 
-import { z } from 'genkit';
+import { z } from 'zod';
 
 export const AnalysisTypeSchema = z.enum(['plagiarism', 'grammar', 'review']);
 export type AnalysisType = z.infer<typeof AnalysisTypeSchema>;

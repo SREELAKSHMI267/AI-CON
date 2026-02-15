@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 import { extractTextAndAnalyze } from '@/ai/flows/extract-text-and-analyze';
 import { ExtractTextAndAnalyzeInputSchema } from '@/ai/flows/schemas';
 
+export const maxDuration = 300; // 300 seconds for long-running grammar analysis
+
 export async function POST(req: Request) {
   console.log('[API] Received POST request to /api/analyze.');
   try {
